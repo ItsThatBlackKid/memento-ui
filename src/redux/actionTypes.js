@@ -1,0 +1,2 @@
+export const ADD_MEMENTO = "ADD_MEMENTO";
+export const DELETE_MEMENTO = "REMOVE_MEMENTO";
