@@ -4,6 +4,8 @@ import {notify} from "react-notify-toast";
 import {withRouter} from 'react-router-dom'
 import Slider from "./Slider";
 import gql from "graphql-tag";
+import {useDispatch, useSelector} from "react-redux";
+import {addSingleMemento} from "../redux/actions";
 
 const MEMENTO_QUERY = gql`
     query getMemento($_id: ID!) {
@@ -37,12 +39,18 @@ const EditMemento = ({match}) => {
         setMood(mood);
     };
 
+     const memento  = useSelector((state) => state.memento.allMemento.find( x => x._id === match.params.id));
 
-    const {loading, error, data} = useQuery(MEMENTO_QUERY, {
-        variables: {
-            _id: match.params.id
-        }
-    });
+     
+         const {loading, error, data} = useQuery(MEMENTO_QUERY, {
+             variables: {
+                 _id: match.params.id
+             },
+
+             onCompleted(data) {
+             },
+             skip: typeof memento !== "undefined"
+         });
 
 
     const [editMemento] = useMutation(EDIT_MEMENTO);
@@ -54,8 +62,6 @@ const EditMemento = ({match}) => {
     }
     ;
 
-    const memento = data;
-
 
     return (
         <div className="container m-t-20">
@@ -66,11 +72,11 @@ const EditMemento = ({match}) => {
                     e.preventDefault();
                     editMemento({
                         variables: {
-                            _id: memento.getMemento._id,
-                            title: title || memento.getMemento.title,
-                            content: content || memento.getMemento.content,
+                            _id: memento._id,
+                            title: title || memento.title,
+                            content: content || memento.content,
                             mood: parseFloat(mood)
-                        }
+                        },
                     });
                     notify.show("Memento edited successfully");
                 }}>
@@ -78,12 +84,12 @@ const EditMemento = ({match}) => {
                         <label>Memento title</label>
                         <div className="control">
                             <input className="input" type="text" placeholder="Memento Title"
-                                   name={"title"} defaultValue={memento.getMemento.title}
+                                   name={"title"} defaultValue={memento.title}
                                    onChange={e => setTitle(e.target.value)} required/>
                         </div>
                         <div className="control">
                             <label>{mood}</label>
-                            <Slider value={memento.getMemento.mood} onValueChange={moodChange}/>
+                            <Slider value={memento.mood} onValueChange={moodChange}/>
                         </div>
                     </div>
 
@@ -92,7 +98,7 @@ const EditMemento = ({match}) => {
                         <label className="label">Memento Content</label>
                         <div className="control">
                             <textarea className="textarea" rows="10" placeholder="Memento Content here..."
-                                      defaultValue={memento.getMemento.content} name={"content"}
+                                      defaultValue={memento.content} name={"content"}
                                       onChange={e => setContent(e.target.value)} required>
                             </textarea>
                         </div>

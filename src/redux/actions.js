@@ -1,8 +1,26 @@
-import {ADD_MEMENTO, DELETE_MEMENTO} from "./actionTypes";
+import {ADD_MANY_MEMENTO, ADD_SINGLE_MEMENTO, DELETE_MEMENTO, USER_LOGIN, USER_LOGOUT} from "./actionTypes";
 
-export const addMemento = memento => ({
-    type: ADD_MEMENTO,
+export const addSingleMemento = mementoObj => ({
+    type: ADD_SINGLE_MEMENTO,
     payload: {
-        memento
+        mementoObj
     }
+});
+
+export const addManyMemento = mementoArr => ({
+    type: ADD_MANY_MEMENTO,
+    payload: {
+        mementoArr
+    }
+});
+
+export const userLogin = userObj => ({
+    type: USER_LOGIN,
+    payload: {
+        userObj
+    }
+});
+
+export const userLogout = () => ({
+    type: USER_LOGOUT
 });

@@ -1,4 +1,4 @@
-import {ADD_MEMENTO, DELETE_MEMENTO} from "../actionTypes";
+import {ADD_SINGLE_MEMENTO, ADD_MANY_MEMENTO, DELETE_MEMENTO} from "../actionTypes";
 
 const initState ={
     allMemento: [],
@@ -6,13 +6,26 @@ const initState ={
 
 export default (state =initState, action) => {
     switch (action.type) {
-        case ADD_MEMENTO:
-            const {memento, _id} = action.payload;
+        case ADD_SINGLE_MEMENTO: {
+            const {mementoObj, _id} = action.payload;
 
             return {
                 ...state,
-                allMemento: [...state.allMemento, memento],
+                allMemento: [...state.allMemento, mementoObj],
             }
+
+        }
+
+        case ADD_MANY_MEMENTO: {
+            const {mementoArr} = action.payload;
+            return Object.assign({}, state, {
+                allMemento: [...state.allMemento, ...mementoArr]
+            })
+        }
+
+        default: {
+            return state
+        }
     }
 }
 
