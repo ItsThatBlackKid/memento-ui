@@ -75,7 +75,7 @@ const AllMemento = () => {
                     {allMemento.length > 0
                         ? allMemento.map((memento) => (
 
-                            <Grid item xs={4} key={memento._id}>
+                            <Grid item xs={12}  md={6} sm={12} lg={4} key={memento._id}>
                                 <Card style={{background: `${colourBetween(memento.mood)}`}}>
                                     <CardHeader
                                         title={

@@ -56,5 +56,6 @@
   "devDependencies": {
     "apollo-link": "^1.2.13",
     "sass": "^1.24.0"
-  }
+  },
+  "proxy": "http://test-sheku.com:4300"
 }
