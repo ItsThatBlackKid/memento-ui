@@ -1,5 +1,11 @@
 import React from 'react';
-import {BrowserRouter as Router, Route} from 'react-router-dom'
+import {
+    BrowserRouter as Router,
+    Route,
+    Switch,
+    useLocation,
+
+} from 'react-router-dom'
 import './App.css';
 
 import {isEmpty} from 'lodash'
@@ -29,6 +35,9 @@ import {useDispatch, useSelector} from "react-redux";
 import gql from "graphql-tag";
 import {useQuery} from "@apollo/react-hooks";
 import {userLogin} from "./redux/actions";
+import MementoComposer from "./components/EditMemento";
+import ModalContainer from "react-router-modal/lib/modal_container";
+import ModalRoute from "react-router-modal/lib/modal_route";
 
 // get the user profile from the backend
 const GET_USER = gql`
@@ -62,6 +71,8 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
+        let location = useLocation();
+
         const classes = useStyles();
         const dispatch = useDispatch();
 
@@ -69,7 +80,6 @@ const App = () => {
 
         const {loading} = useQuery(GET_USER, {
             onCompleted: (data) => {
-                console.log("completed");
                 dispatch(userLogin(data.getUser))
             },
             onError: (error) => {
@@ -102,30 +112,33 @@ const App = () => {
             }
         };
 
+        let background = location.state && location.state.background;
+        let edit = location.state && location.state.edit;
 
         return (
             <ThemeProvider theme={theme}>
-                <Router>
-                    <AppBar position={"sticky"}>
-                        <Toolbar>
-                            <IconButton edge={"start"}>
-                                <MenuIcon/>
-                            </IconButton>
-                            <Typography variant="h5" className={classes.title}>
-                                <MLink href={"/"} color={"textPrimary"} underline={"none"}>Memento</MLink>
-                            </Typography>
-                            {
-                                whichUser()
-                            }
-                        </Toolbar>
-                    </AppBar>
-                    <Container fixed>
-                        <Route exact path="/" component={AllMemento}/>
-                        <Route path="/newmemento" component={NewMemento}/>
-                        <Route path="/memento/:id" component={EditMemento}/>
+                <AppBar position={"sticky"}>
+                    <Toolbar>
+                        <IconButton edge={"start"}>
+                            <MenuIcon/>
+                        </IconButton>
+                        <Typography variant="h5" className={classes.title}>
+                            <MLink href={"/"} color={"textPrimary"} underline={"none"}>Memento</MLink>
+                        </Typography>
+                        {
+                            whichUser()
+                        }
+                    </Toolbar>
+                </AppBar>
+                <Container id={"container"} fixed>
+                    <Route exact path="/" component={AllMemento}/>
+                    <Route path="/newmemento" component={NewMemento}/>
+                    {/*<Route path="/memento/:id" component={EditMemento}/>*/}
 
-                    </Container>
-                </Router>
+                    <ModalRoute path={"/memento"} component={MementoComposer} parentPath={"/"}/>
+                    <ModalRoute path={"/memento/:id"} component={MementoComposer} parentPath={"/"}/>
+                    <ModalContainer/>
+                </Container>
             </ThemeProvider>
         )
     }

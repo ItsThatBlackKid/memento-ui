@@ -16,6 +16,8 @@ import store from './redux/store'
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import {BrowserRouter as Router} from "react-router-dom";
+import {ThemeProvider} from "@material-ui/core";
 
 const errorLink = onError(({graphQlErrors}) => {
     if (graphQlErrors) graphQlErrors.map(({message}) => {
@@ -24,7 +26,7 @@ const errorLink = onError(({graphQlErrors}) => {
     })
 });
 
-const httpLink = createHttpLink({uri: "graphql"});
+const httpLink = createHttpLink({uri: "/graphql"});
 
 const link = ApolloLink.from([
     errorLink,
@@ -40,10 +42,12 @@ const client = new ApolloClient({
 
 ReactDOM.render(
     <ApolloProvider client={client}>
-        <Provider store={store}>
-        <Notifications/>
-        <App/>
-        </Provider>
+        <Router>
+            <Provider store={store}>
+                <Notifications/>
+                <App/>
+            </Provider>
+        </Router>
     </ApolloProvider>
     , document.getElementById('root'));
 
