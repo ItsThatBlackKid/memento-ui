@@ -1,11 +1,9 @@
-import React, {Fragment, useEffect, useState} from "react";
+import React, {Fragment, useState} from "react";
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag"
 import Slider from "./Slider";
-import _ from 'lodash'
 import {useHistory} from "react-router-dom";
-import {useDispatch, useSelector, connect} from "react-redux";
-import {addSingleMemento} from "../redux/actions";
+import {connect} from "react-redux";
 import {DialogActions, DialogContent, DialogTitle, Icon, TextField} from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
 import Button from "@material-ui/core/Button";

@@ -1,32 +1,55 @@
-import React, { Component } from "react";
+import React, {Component, useEffect, useState} from "react";
+import {Slider as MuiSlider} from "@material-ui/core";
 import "../styles/slider.scss"
+import {createUseStyles  as createStyles} from "react-jss";
+import {colourBetween, getGradient} from "../util/colours";
 
-class Slider extends Component {
-    constructor(props) {
-        super(props);
+const mementoSlider = createStyles({
+    root: {
+        height: 6
+    },
+    track: {
+        color: value => colourBetween(value),
+        height: 6
+    },
 
-        this.state = {
-            value: props.value || 0.5
-        }
+    thumb: {
+        color: value => colourBetween(value)
+    },
+
+    rail: {
+        color: getGradient(),
+        height: 6,
     }
 
+});
 
-    changeMood =(e) => {
-        this.props.onValueChange(parseFloat(e.target.value));
-        this.setState({value: e.target.value});
-    }
+const Slider = ({value, onValueChange}) => {
+    const slider = mementoSlider(value);
+    const [sliderValue, setValue] = useState(value);
 
-    render() {
-        const {value} = this.state;
+    useEffect(() => {
+        setValue(value)
+    }, [value]);
 
-        return (
-            <div className="slidecontainer">
-                <label>{value}</label>
-                <input type="range" min="0" max="1" value={value}
-                       step="0.1" onChange={this.changeMood} className="slider" id="mood"/>
-            </div>
-        )
-    }
+    const onChange = (v) => {
+        setValue(v);
+        onValueChange(v);
+    };
+
+
+
+    return (
+        <MuiSlider
+            className={"slider"}
+            classes={{...slider}}
+            value={value}
+            onChange={(e,v) => onChange(v)}
+            valueLabelDisplay={"auto"}
+            step={0.1}
+            min={0}
+            max={1}
+        />
+    )
 }
-
 export default Slider;

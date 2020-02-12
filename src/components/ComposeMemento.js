@@ -4,7 +4,15 @@ import {withRouter} from 'react-router-dom'
 import gql from 'graphql-tag'
 import Slider from "./Slider";
 import Card from "@material-ui/core/Card";
-import {CardActions, CardContent, CardHeader, Collapse, TextField} from "@material-ui/core";
+import {
+    CardActions,
+    CardContent,
+    CardHeader,
+    Collapse,
+    ExpansionPanel, ExpansionPanelActions,
+    ExpansionPanelDetails,
+    TextField
+} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 
 import "../styles/compose.sass"
@@ -17,8 +25,10 @@ import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import {useDispatch} from "react-redux";
 import {addSingleMemento} from "../redux/actions";
+import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
+import {useTheme} from "react-jss";
 
-const useStyles = makeStyles({
+const useStyles = makeStyles(theme => ({
     underline: {
         "&&&:before": {
             borderBottom: "none"
@@ -26,8 +36,17 @@ const useStyles = makeStyles({
         "&&:after": {
             borderBottom: "none"
         }
+    },
+
+}));
+
+const composerStyle = makeStyles(theme => ({
+    composer: {
+        [theme.breakpoints.up('sm')]: {
+            width: '450px !important',
+        },
     }
-});
+}));
 
 const NEW_MEMENTO = gql`
     mutation createNote($title: String! $mood: Float! $content: String!) {
@@ -54,6 +73,7 @@ const MEMENTO_QUERY = gql`
 
 const ComposeMemento = () => {
     const classes = useStyles();
+    const comp = composerStyle();
     const [compose, setCompose] = useState(false);
     const initState = {
         title: "",
@@ -109,24 +129,22 @@ const ComposeMemento = () => {
                 })
             }}
         >
-            <Card id={"composer"}>
-                <CardActionArea onClick={() => setCompose(true)}>
-                    <CardHeader
-                        title={<TextField
-                            variant={"filled"}
-                            value={memento.title}
-                            placeholder={"Write a new memento"}
-                            onClick={() => setCompose(true)}
-                            onChange={(e) => setTitle(e.target.value)}
-                            InputProps={{classes}}
-                        />}/>
-                </CardActionArea>
-
-                <Collapse
-                    in={compose}
-                    unmountOnExit
-                >
-                    <CardContent>
+            <ExpansionPanel id={"composer"} expanded={compose} className={comp.composer} TransitionProps={{
+                unmountOnExit: true,
+            }} onChange={() => {
+                compose === false && setCompose(true)
+            }}>
+                <ExpansionPanelSummary onClick={() => setCompose(true)}>
+                    <TextField
+                        variant={"outlined"}
+                        value={memento.title}
+                        placeholder={"Write a new memento"}
+                        onClick={() => setCompose(true)}
+                        onChange={(e) => setTitle(e.target.value)}
+                    />
+                </ExpansionPanelSummary>
+                <ExpansionPanelDetails>
+                    <Grid>
                         <Slider value={memento.mood} onValueChange={setMood}/>
                         <TextField
                             variant={"filled"}
@@ -136,23 +154,28 @@ const ComposeMemento = () => {
                             onChange={(e) => setContent(e.target.value)}
                             InputProps={{classes}}
                         />
-                    </CardContent>
-                    <Grid container justify={"flex-end"}>
-                        <CardActions>
-                            <Button
-                                endIcon={<Icon>cancel</Icon>}
-                                color={"secondary"}
-                                variant={"contained"}
-                                onClick={() => setCompose(false)}>
-                                Cancel
-                            </Button>
-                            <Button type={"submit"} endIcon={<Icon>send</Icon>} color={"primary"} variant={"contained"}>
-                                Submit
-                            </Button>
-                        </CardActions>
                     </Grid>
-                </Collapse>
-            </Card>
+                </ExpansionPanelDetails>
+                <Grid container justify={"flex-end"}>
+                    <ExpansionPanelActions>
+                        <Button
+                            endIcon={<Icon>cancel</Icon>}
+                            color={"secondary"}
+                            variant={"outlined"}
+                            onClick={() => {
+                                setCompose(false);
+                                setMemento(initState);
+
+                            }}
+                        >
+                            Cancel
+                        </Button>
+                        <Button type={"submit"} endIcon={<Icon>send</Icon>} color={"primary"} variant={"outlined"}>
+                            Submit
+                        </Button>
+                    </ExpansionPanelActions>
+                </Grid>
+            </ExpansionPanel>
         </form>
 
 

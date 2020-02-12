@@ -15,7 +15,7 @@ import {
     Button,
     CircularProgress,
     Container,
-    createMuiTheme,
+    createMuiTheme, CssBaseline,
     IconButton,
     ThemeProvider,
     Toolbar,
@@ -38,6 +38,7 @@ import {userLogin} from "./redux/actions";
 import MementoComposer from "./components/EditMemento";
 import ModalContainer from "react-router-modal/lib/modal_container";
 import ModalRoute from "react-router-modal/lib/modal_route";
+import LandingPage from "./components/LandingPage";
 
 // get the user profile from the backend
 const GET_USER = gql`
@@ -55,12 +56,16 @@ const GET_USER = gql`
 
 const theme = createMuiTheme({
     palette: {
+        type: "dark",
+
         primary: {
-            main: "#ffeb3b"
+            main: "#f9c12c"
         },
         secondary: {
-            main: "#7091a3"
-        }
+            main: "#bcfe67"
+        },
+
+        tonalOffset: 0.3
     }
 });
 
@@ -83,10 +88,10 @@ const App = () => {
                 dispatch(userLogin(data.getUser))
             },
             onError: (error) => {
-                console.log("error");
-                console.log(error);
             }
         });
+
+        let hasUser = false;
 
         const whichUser = () => {
 
@@ -94,21 +99,28 @@ const App = () => {
                 return <CircularProgress/>
             }
 
+            hasUser = !isEmpty(user);
 
-            if (isEmpty(user)) {
-                return <Button variant={"text"}
-                               onClick={
-                                   () => {
-                                       window.location.assign(`http://test-sheku.com:3000/login/?redirect=${encodeURIComponent(window.location)}`)
-                                   }
-                               }
-                               disableElevation
-                >Login
-                </Button>
-            } else {
+            const redirectUri = `/?redirect=${encodeURIComponent(window.location)}`;
+
+
+            if (hasUser) {
                 return <IconButton>
                     <PersonIcon/>
                 </IconButton>
+            }
+            else {
+                return <Button variant={"text"}
+                               onClick={() => {
+                                   window
+                                       .location
+                                       .assign((process.env.AUTH_LOGIN && process.env.AUTH_LOGIN + redirectUri)
+                                           || `http://test-sheku.com:3000/login${redirectUri}`
+                                       )
+                               }}
+                               disableElevation
+                >Login
+                </Button>
             }
         };
 
@@ -117,7 +129,8 @@ const App = () => {
 
         return (
             <ThemeProvider theme={theme}>
-                <AppBar position={"sticky"}>
+                <CssBaseline/>
+                <AppBar position={!hasUser ? "sticky" : "fixed"} elevation={hasUser ? 2 : 0}>
                     <Toolbar>
                         <IconButton edge={"start"}>
                             <MenuIcon/>
@@ -130,15 +143,16 @@ const App = () => {
                         }
                     </Toolbar>
                 </AppBar>
-                <Container id={"container"} fixed>
-                    <Route exact path="/" component={AllMemento}/>
-                    <Route path="/newmemento" component={NewMemento}/>
+                    {
+                        hasUser ? <Route exact path="/" component={AllMemento}/> :
+                            <Route exact path="/" component={LandingPage}/>
+
+                    }
                     {/*<Route path="/memento/:id" component={EditMemento}/>*/}
 
                     <ModalRoute path={"/memento"} component={MementoComposer} parentPath={"/"}/>
                     <ModalRoute path={"/memento/:id"} component={MementoComposer} parentPath={"/"}/>
                     <ModalContainer/>
-                </Container>
             </ThemeProvider>
         )
     }

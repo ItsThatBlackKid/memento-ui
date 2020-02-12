@@ -1,35 +1,36 @@
-.MuiCard-root#composer
+.MuiExpansionPanel-root#composer
   width: 600px
   height: auto
-  background-color: rgba(0, 0, 0, 0.09)
-  min-height: 56px !important
 
-.MuiCard-root#composer .MuiCardHeader-root
+
+#composer .MuiExpansionPanelSummary-root
   padding: 0
-  width: 100%
 
-.MuiCard-root#composer .MuiFormControl-root
+#composer .MuiExpansionPanelSummary-root.Mui-focused
+  background: initial
+
+#composer .MuiExpansionPanelSummary-content
+  width: 100%
+  margin: 0
+
+#composer > .MuiButtonBase-root
+  align-items: initial
+
+#composer .MuiExpansionPanelSummary-content.Mui-expanded
+  margin: 0
+
+#composer .MuiFormControl-root
   width: 100%
   height: 100%
-  padding-bottom: 10px
 
-.MuiCard-root#composer .MuiCardActionArea-root
+#composer .MuiExpansionPanelDetails-root
+  padding: 0
+
+#composer .MuiExpansionPanelDetails-root .MuiGrid-root
   height: auto
+  width: 100%
 
 .MuiCard-root#composer .MuiInputBase-root
   background: none
-  //height: 100%
-
-#composer.MuiCardActions-root
-  background: #fff
-  height: 100%
-
-.MuiCard-root#composer .MuiCardContent-root
-  height: auto
-  padding: 0
-.MuiCard-root#composer .MuiCollapse-entered
-  height: 100% !important
-
-.MuiCard-root#composer .MuiCollapse-wrapper
-  height: 100% !important
+//height: 100%
 

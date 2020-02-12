@@ -1,4 +1,11 @@
-import {ADD_MANY_MEMENTO, ADD_SINGLE_MEMENTO, DELETE_MEMENTO, USER_LOGIN, USER_LOGOUT} from "./actionTypes";
+import {
+    ADD_MANY_MEMENTO,
+    ADD_SINGLE_MEMENTO,
+    DELETE_MEMENTO,
+    MEMENTO_SORT,
+    USER_LOGIN,
+    USER_LOGOUT
+} from "./actionTypes";
 
 export const addSingleMemento = mementoObj => ({
     type: ADD_SINGLE_MEMENTO,
@@ -20,6 +27,15 @@ export const userLogin = userObj => ({
         userObj
     }
 });
+
+
+export const sortMemento = (sortKey = null, sortOrder = null) => ({
+    type: MEMENTO_SORT,
+    payload: {
+        sortKey,
+        sortOrder
+    }
+})
 
 export const userLogout = () => ({
     type: USER_LOGOUT
