@@ -1,4 +1,5 @@
 import {ADD_MANY_MEMENTO, ADD_SINGLE_MEMENTO, MEMENTO_SORT, SET_CURRENT_MEMENTO} from "../actionTypes";
+import moment from "moment";
 
 const SORT_ASC = "ASC";
 const SORT_DESC = "DESC";
@@ -7,8 +8,66 @@ const defaultSortKey = 'date';
 const initState = {
     allMemento: [],
     sortKey: defaultSortKey,
-    sortOrder: SORT_DESC
+    sortOrder: SORT_DESC,
+    byMonth: {
+        January: [],
+        February: [],
+        March: [],
+        April: [],
+        May: [],
+        June: [],
+        July: [],
+        August: [],
+        September: [],
+        October: [],
+        November: [],
+        December: []
+    }
 };
+
+const sortFn = (a, b, state) => {
+    if (state.sortOrder === SORT_ASC) {
+        return (new Date(a[state.sortKey]) - new Date(b[state.sortKey]))
+    }
+
+    if (state.sortOrder === SORT_DESC) {
+        return new Date(b[state.sortKey]) - new Date(a[state.sortKey])
+    }
+};
+
+const groupBy = (memento, state, groupKey) => {
+    const newState = {};
+    const byMonth = {};
+    let it = 0;
+
+    switch (groupKey) {
+        case "month": {
+            memento.forEach(obj => {
+                it++;
+                const month = moment(obj.date).format("MMMM");
+                if (it > 0) {
+                    Object.assign(byMonth, byMonth, {
+                        [month]: [obj]
+                    })
+                    console.log(byMonth);
+                } else {
+                    Object.assign(byMonth, state, {
+                            [month]: [...state.byMonth[month], obj]
+                    });
+                }
+            });
+            break;
+        }
+        case "year": {
+
+        }
+    }
+
+    return {
+        ...state,
+        byMonth
+    }
+}
 
 export default (state = initState, action) => {
     switch (action.type) {
@@ -25,13 +84,7 @@ export default (state = initState, action) => {
 
             return Object.assign({}, state, {
                 allMemento: toUpdate.sort((a, b) => {
-                    if (state.sortOrder === SORT_ASC) {
-                        return a[state.sortKey] > b[state.sortKey] ? a : b
-                    }
-
-                    if (state.sortOrder === SORT_DESC) {
-                        return a[state.sortKey] < b[state.sortKey] ? a : b
-                    }
+                    return sortFn(a, b, state)
                 })
             })
 
@@ -40,16 +93,12 @@ export default (state = initState, action) => {
         case ADD_MANY_MEMENTO: {
             const {mementoArr} = action.payload;
             const both = [...state.allMemento, ...mementoArr];
+            const grouped = groupBy(mementoArr, state, "month");
             return Object.assign({}, state, {
+                ...grouped,
                 allMemento: both.sort((a, b) => {
-                    if (state.sortOrder === SORT_ASC) {
-                        return a[state.sortKey] > b[state.sortKey] ? b : a
-                    }
-
-                    if (state.sortOrder === SORT_DESC) {
-                        return a[state.sortKey] < b[state.sortKey] ? a : b
-                    }
-                })
+                    return sortFn(a, b, state)
+                }),
             })
         }
 

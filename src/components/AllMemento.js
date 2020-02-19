@@ -29,6 +29,7 @@ import MementoComposer from "./EditMemento";
 
 import {useLocation, Link} from "react-router-dom"
 import ComposeMemento from "./ComposeMemento";
+import moment from "moment";
 
 const makeCardStyles = makeStyles({
     root: {
@@ -71,6 +72,7 @@ const AllMemento = () => {
 
 
     const allMemento = useSelector((state) => state.memento.allMemento);
+    const byMonth = useSelector((state) => state.memento.byMonth);
 
     const {loading, error} = useQuery(MEMENTO_QUERY, {
         onCompleted: (data) => {
@@ -93,8 +95,88 @@ const AllMemento = () => {
     ;
 
 
-    if (!allMemento) {
+    if (!byMonth) {
         return "Error displaying memento"
+    }
+
+    const displayMemento = (memento) => {
+        console.log(memento);
+      return  <Grid item xs={12} md={6} sm={12} lg={4} key={memento._id}>
+            <Card
+                style={{
+                    background: `${colourBetween(memento.mood)}`,
+                    color: getTextContrastColor(colourBetween(memento.mood))
+
+                }}
+            >
+                <CardHeader
+                    title={
+                        <Typography variant={"h6"}>
+                            {memento.title}
+                        </Typography>
+                    }
+                    action={
+                        <Fragment>
+                            <IconButton color={"inherit"} onClick={handleClick}>
+                                <MoreVertIcon/>
+                            </IconButton>
+                            <Menu
+                                id="card-menu"
+                                anchorEl={anchorEl}
+                                open={Boolean(anchorEl)}
+                                onClose={handleClose}
+                            >
+                                <MenuItem href="#" component="a">Delete</MenuItem>
+                            </Menu>
+                        </Fragment>
+                    }
+                >
+                </CardHeader>
+
+                <CardContent className="card-content">
+
+                    <div className="content">
+                        <Typography variant={"body1"}>{memento.content}</Typography>
+                    </div>
+
+                </CardContent>
+                <CardActions>
+
+                    <Button variant={"text"} color={"inherit"} href={`memento/${memento._id}`}
+                    >
+                        Edit
+                    </Button>
+                    <Button variant={"text"} color={"inherit"} href="#">
+                        Delete
+                    </Button>
+                </CardActions>
+            </Card>
+        </Grid>
+    }
+
+    const loadMemento = () => {
+        for (let month in byMonth) {
+            if (byMonth.hasOwnProperty(month)) {
+                if (byMonth[month].length > 0) {
+                    return <Fragment>
+                        <Typography>{month}</Typography>
+                        {
+                            byMonth[month].map(memento => (
+                                displayMemento(memento)
+                            ))
+                        }
+                    </Fragment>
+                }
+            } else {
+                return <Grid
+                    item
+                    xs={12}
+                    align={"center"}
+                >
+                    <Typography variant={"h2"}>No Memento Found</Typography>
+                </Grid>
+            }
+        }
     }
 
 
@@ -104,70 +186,13 @@ const AllMemento = () => {
                 <ComposeMemento/>
             </Grid>
 
-            <h1 className="page-title">All Memento</h1>
+            <Typography>
+
+            </Typography>
             <Grid container spacing={4}>
-                {allMemento.length > 0
-                    ? <Fragment>
-                        {allMemento.map((memento) => (
-                            <Grid item xs={12} md={6} sm={12} lg={4} key={memento._id}>
-                                <Card
-                                    style={{
-                                        background: `${colourBetween(memento.mood)}`,
-                                        color: getTextContrastColor(colourBetween(memento.mood))
 
-                                    }}
-                                >
-                                    <CardHeader
-                                        title={
-                                            <Typography variant={"h6"}>
-                                                {memento.title}
-                                            </Typography>
-                                        }
-                                        action={
-                                            <Fragment>
-                                                <IconButton color={"inherit"} onClick={handleClick}>
-                                                    <MoreVertIcon/>
-                                                </IconButton>
-                                                <Menu
-                                                    id="card-menu"
-                                                    anchorEl={anchorEl}
-                                                    open={Boolean(anchorEl)}
-                                                    onClose={handleClose}
-                                                >
-                                                    <MenuItem href="#" component="a">Delete</MenuItem>
-                                                </Menu>
-                                            </Fragment>
-                                        }
-                                    >
-
-                                    </CardHeader>
-                                    <CardContent className="card-content">
-                                        <div className="content">
-                                            <Typography>{memento.content}</Typography>
-                                        </div>
-                                    </CardContent>
-                                    <CardActions>
-
-                                        <Button variant={"text"} color={"inherit"} href={`memento/${memento._id}`}
-                                        >
-                                            Edit
-                                        </Button>
-                                        <Button variant={"text"} color={"inherit"} href="#">
-                                            Delete
-                                        </Button>
-                                    </CardActions>
-                                </Card>
-                            </Grid>
-                        ))}
-                    </Fragment>
-                    :
-                    <Grid
-                        item
-                        xs={12}
-                        align={"center"}
-                    >
-                        <Typography variant={"h2"}>No Memento Found</Typography>
-                    </Grid>
+                {
+                    loadMemento()
                 }
             </Grid>
 
