@@ -8,11 +8,13 @@ import "../styles/allMemento.sass"
 import {colourBetween, getTextContrastColor} from "../util/colours";
 
 import {useDispatch, useSelector} from "react-redux";
-import {addManyMemento, sortMemento} from "../redux/actions";
+import {addManyMemento} from "../redux/actions";
+
+import _ from 'lodash';
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
-import {CardHeader, Container, Slide} from "@material-ui/core";
+import {CardHeader, Container} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import CardActions from "@material-ui/core/CardActions";
 import CardContent from "@material-ui/core/CardContent";
@@ -21,15 +23,11 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import Fab from "@material-ui/core/Fab";
-import Icon from "@material-ui/core/Icon";
 import {makeStyles} from "@material-ui/core/styles";
 import {getContrastText} from '@tgrx/getcontrasttext'
-import MementoComposer from "./EditMemento";
 
-import {useLocation, Link} from "react-router-dom"
+import {useLocation} from "react-router-dom"
 import ComposeMemento from "./ComposeMemento";
-import moment from "moment";
 
 const makeCardStyles = makeStyles({
     root: {
@@ -100,8 +98,7 @@ const AllMemento = () => {
     }
 
     const displayMemento = (memento) => {
-        console.log(memento);
-      return  <Grid item xs={12} md={6} sm={12} lg={4} key={memento._id}>
+        return <Grid item xs={12} md={6} sm={12} lg={4} key={memento._id}>
             <Card
                 style={{
                     background: `${colourBetween(memento.mood)}`,
@@ -159,11 +156,25 @@ const AllMemento = () => {
             if (byMonth.hasOwnProperty(month)) {
                 if (byMonth[month].length > 0) {
                     return <Fragment>
-                        <Typography>{month}</Typography>
+                        <Typography variant={"h2"}>
+                            {month}
+                        </Typography>
+                        <Grid container spacing={4}>
+
+                            {
+                                byMonth[month].map(memento => (
+                                    displayMemento(memento)
+                                ))
+                            }
+                        </Grid>
+                    </Fragment>
+                } else if(!_.isEmpty(byMonth[month])) {
+                    return <Fragment>
+                        <Typography variant={"h2"}>
+                            {month}
+                        </Typography>
                         {
-                            byMonth[month].map(memento => (
-                                displayMemento(memento)
-                            ))
+
                         }
                     </Fragment>
                 }
@@ -185,16 +196,12 @@ const AllMemento = () => {
             <Grid container justify={"center"}>
                 <ComposeMemento/>
             </Grid>
-
-            <Typography>
-
-            </Typography>
-            <Grid container spacing={4}>
-
+            <Grid container>
                 {
                     loadMemento()
                 }
             </Grid>
+
 
         </Container>
     )

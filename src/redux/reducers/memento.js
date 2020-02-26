@@ -43,19 +43,18 @@ const groupBy = (memento, state, groupKey) => {
     switch (groupKey) {
         case "month": {
             memento.forEach(obj => {
-                it++;
                 const month = moment(obj.date).format("MMMM");
-                if (it > 0) {
-                    Object.assign(byMonth, byMonth, {
-                        [month]: [obj]
-                    })
-                    console.log(byMonth);
+                if (it === 0 || !byMonth.hasOwnProperty(month)) {
+                    byMonth[month] = [...state.byMonth[month],obj];
                 } else {
-                    Object.assign(byMonth, state, {
-                            [month]: [...state.byMonth[month], obj]
-                    });
+                    byMonth[month] = [...byMonth[month],obj];
                 }
+
+                it += (it === 0) ? 1 : 0;
+
             });
+
+
             break;
         }
         case "year": {
@@ -67,6 +66,7 @@ const groupBy = (memento, state, groupKey) => {
         ...state,
         byMonth
     }
+
 }
 
 export default (state = initState, action) => {

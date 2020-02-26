@@ -1,32 +1,17 @@
 import React, {useState} from "react";
 import {useMutation} from "@apollo/react-hooks";
-import {withRouter} from 'react-router-dom'
 import gql from 'graphql-tag'
 import Slider from "./Slider";
-import Card from "@material-ui/core/Card";
-import {
-    CardActions,
-    CardContent,
-    CardHeader,
-    Collapse,
-    ExpansionPanel, ExpansionPanelActions,
-    ExpansionPanelDetails,
-    TextField
-} from "@material-ui/core";
-import Typography from "@material-ui/core/Typography";
+import {ExpansionPanel, ExpansionPanelActions, ExpansionPanelDetails, TextField} from "@material-ui/core";
 
 import "../styles/compose.sass"
 import makeStyles from "@material-ui/core/styles/makeStyles";
-import Slide from "@material-ui/core/Slide";
-import CardActionArea from "@material-ui/core/CardActionArea";
-import Box from "@material-ui/core/Box";
 import Button from "@material-ui/core/Button";
 import Grid from "@material-ui/core/Grid";
 import Icon from "@material-ui/core/Icon";
 import {useDispatch} from "react-redux";
 import {addSingleMemento} from "../redux/actions";
 import ExpansionPanelSummary from "@material-ui/core/ExpansionPanelSummary";
-import {useTheme} from "react-jss";
 
 const useStyles = makeStyles(theme => ({
     underline: {

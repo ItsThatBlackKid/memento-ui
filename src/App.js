@@ -1,11 +1,5 @@
 import React from 'react';
-import {
-    BrowserRouter as Router,
-    Route,
-    Switch,
-    useLocation,
-
-} from 'react-router-dom'
+import {Route, useLocation,} from 'react-router-dom'
 import './App.css';
 
 import {isEmpty} from 'lodash'
@@ -14,8 +8,8 @@ import {
     AppBar,
     Button,
     CircularProgress,
-    Container,
-    createMuiTheme, CssBaseline,
+    createMuiTheme,
+    CssBaseline,
     IconButton,
     ThemeProvider,
     Toolbar,
@@ -25,8 +19,7 @@ import MLink from "@material-ui/core/Link"
 import MenuIcon from '@material-ui/icons/Menu'
 
 import AllMemento from './components/AllMemento'
-import EditMemento from './components/EditMemento'
-import NewMemento from './components/NewMemento'
+import MementoComposer from './components/EditMemento'
 
 import PersonIcon from '@material-ui/icons/Person';
 import {makeStyles} from "@material-ui/core/styles";
@@ -35,7 +28,6 @@ import {useDispatch, useSelector} from "react-redux";
 import gql from "graphql-tag";
 import {useQuery} from "@apollo/react-hooks";
 import {userLogin} from "./redux/actions";
-import MementoComposer from "./components/EditMemento";
 import ModalContainer from "react-router-modal/lib/modal_container";
 import ModalRoute from "react-router-modal/lib/modal_route";
 import LandingPage from "./components/LandingPage";
