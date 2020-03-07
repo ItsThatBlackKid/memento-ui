@@ -74,7 +74,6 @@ const AllMemento = () => {
 
     const {loading, error} = useQuery(MEMENTO_QUERY, {
         onCompleted: (data) => {
-            console.log(data.allMemento);
             dispatch(addManyMemento(data.allMemento));
         },
         skip: !isEmpty(allMemento)
@@ -97,7 +96,10 @@ const AllMemento = () => {
         return "Error displaying memento"
     }
 
+    console.log(byMonth);
+
     const displayMemento = (memento) => {
+        console.log(memento);
         return <Grid item xs={12} md={6} sm={12} lg={4} key={memento._id}>
             <Card
                 style={{
