@@ -36,7 +36,6 @@ const sortFn = (a, b, state) => {
 };
 
 const groupBy = (memento, state, groupKey) => {
-    const newState = {};
     const byMonth = {};
     let it = 0;
 
@@ -58,7 +57,11 @@ const groupBy = (memento, state, groupKey) => {
             break;
         }
         case "year": {
+            break;
+        }
 
+        default: {
+            break;
         }
     }
 
@@ -79,7 +82,7 @@ export default (state = initState, action) => {
         }
 
         case ADD_SINGLE_MEMENTO: {
-            const {mementoObj, _id} = action.payload;
+            const {mementoObj} = action.payload;
             const toUpdate = [...state.allMemento, mementoObj];
 
             return Object.assign({}, state, {

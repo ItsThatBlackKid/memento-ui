@@ -2,7 +2,6 @@ import React, {Fragment, useState} from "react";
 import {useMutation, useQuery} from "@apollo/react-hooks";
 import gql from "graphql-tag"
 import Slider from "./Slider";
-import {useHistory} from "react-router-dom";
 import {connect} from "react-redux";
 import {DialogActions, DialogContent, DialogTitle, Icon, TextField} from "@material-ui/core";
 import Dialog from "@material-ui/core/Dialog";
@@ -36,7 +35,6 @@ const MEMENTO_QUERY = gql`
 `;
 
 const EditMemento = ({match, location, byId}) => {
-    const [open, setOpen] = useState(true);
     const [title, setTitle] = useState("");
     const [content, setContent] = useState("");
     const [mood, setMood] = useState(0.5);
@@ -56,7 +54,6 @@ const EditMemento = ({match, location, byId}) => {
 
     const [editMemento] = useMutation(EDIT_MEMENTO);
 
-    const history = useHistory();
 
     if (loading) return (
         <Dialog open={true} onClose={(e) => {

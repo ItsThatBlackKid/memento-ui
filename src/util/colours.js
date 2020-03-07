@@ -24,11 +24,10 @@ const colourBetween = (factor) => {
     switch(factor) {
         case 0: return begin;
         case 1: return end;
+        default: {
+
+        }
     }
-    const c1 = hexToRGB(begin);
-    const c2 = hexToRGB(end);
-
-
 
     const rgb = getMidRgb(factor);
 
@@ -46,8 +45,6 @@ const getMidRgb = (factor) => {
 };
 
 const getGradient = () => {
-    const c1 = hexToRGB(begin);
-    const c2 = hexToRGB(end);
 
     let linGrad = "linear-gradient(90deg,";
 

@@ -1,5 +1,5 @@
 import React from 'react';
-import {Route, useLocation,} from 'react-router-dom'
+import {Route} from 'react-router-dom'
 import './App.css';
 
 import {isEmpty} from 'lodash'
@@ -16,7 +16,6 @@ import {
     Typography
 } from "@material-ui/core";
 import MLink from "@material-ui/core/Link"
-import MenuIcon from '@material-ui/icons/Menu'
 
 import AllMemento from './components/AllMemento'
 import MementoComposer from './components/EditMemento'
@@ -68,7 +67,6 @@ const useStyles = makeStyles({
 });
 
 const App = () => {
-        let location = useLocation();
 
         const classes = useStyles();
         const dispatch = useDispatch();
@@ -116,17 +114,12 @@ const App = () => {
             }
         };
 
-        let background = location.state && location.state.background;
-        let edit = location.state && location.state.edit;
 
         return (
             <ThemeProvider theme={theme}>
                 <CssBaseline/>
                 <AppBar position={!hasUser ? "sticky" : "fixed"} elevation={hasUser ? 2 : 0}>
                     <Toolbar>
-                        <IconButton edge={"start"}>
-                            <MenuIcon/>
-                        </IconButton>
                         <Typography variant="h5" className={classes.title}>
                             <MLink href={"/"} color={"textPrimary"} underline={"none"}>Memento</MLink>
                         </Typography>

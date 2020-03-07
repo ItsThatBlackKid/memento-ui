@@ -1,4 +1,4 @@
-import React, {Component, useEffect, useState} from "react";
+import React, { useEffect, useState} from "react";
 import {Slider as MuiSlider} from "@material-ui/core";
 import "../styles/slider.scss"
 import {createUseStyles  as createStyles} from "react-jss";

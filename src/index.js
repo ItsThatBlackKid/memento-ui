@@ -17,7 +17,6 @@ import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter as Router} from "react-router-dom";
-import {ThemeProvider} from "@material-ui/core";
 
 const errorLink = onError(({graphQlErrors}) => {
     if (graphQlErrors) graphQlErrors.map(({message}) => {

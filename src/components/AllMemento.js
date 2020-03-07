@@ -10,7 +10,6 @@ import {colourBetween, getTextContrastColor} from "../util/colours";
 import {useDispatch, useSelector} from "react-redux";
 import {addManyMemento} from "../redux/actions";
 
-import _ from 'lodash';
 
 import Grid from "@material-ui/core/Grid";
 import Card from "@material-ui/core/Card";
@@ -23,20 +22,8 @@ import IconButton from "@material-ui/core/IconButton";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 import Menu from "@material-ui/core/Menu";
 import MenuItem from "@material-ui/core/MenuItem";
-import {makeStyles} from "@material-ui/core/styles";
-import {getContrastText} from '@tgrx/getcontrasttext'
 
-import {useLocation} from "react-router-dom"
 import ComposeMemento from "./ComposeMemento";
-
-const makeCardStyles = makeStyles({
-    root: {
-        color: color => getContrastText({
-            background: color,
-            contrastThreshold: 0.5,
-        })
-    }
-})
 
 const MEMENTO_QUERY = gql`
     {
@@ -53,8 +40,6 @@ const MEMENTO_QUERY = gql`
 
 const AllMemento = () => {
     const [anchorEl, setAnchorEl] = useState(null);
-    const [show, setShow] = useState(false);
-    const [showMemento, setShowMemento] = useState(false);
 
 
     const handleClick = e => {
@@ -66,11 +51,10 @@ const AllMemento = () => {
     };
 
     const dispatch = useDispatch();
-    const location = useLocation();
 
 
     const allMemento = useSelector((state) => state.memento.allMemento);
-    const byMonth = useSelector((state) => state.memento.byMonth);
+    // const byMonth = useSelector((state) => state.memento.byMonth);
 
     const {loading, error} = useQuery(MEMENTO_QUERY, {
         onCompleted: (data) => {
@@ -79,10 +63,6 @@ const AllMemento = () => {
         },
         skip: !isEmpty(allMemento)
     });
-
-    const mouseClick = (e) => {
-        setShow(!show);
-    };
 
 
     if (loading) return "Loading...";
@@ -93,7 +73,7 @@ const AllMemento = () => {
     ;
 
 
-    if (!byMonth) {
+    if (!allMemento) {
         return "Error displaying memento"
     }
 
@@ -151,54 +131,74 @@ const AllMemento = () => {
         </Grid>
     }
 
-    const loadMemento = () => {
-        for (let month in byMonth) {
-            if (byMonth.hasOwnProperty(month)) {
-                if (byMonth[month].length > 0) {
-                    return <Fragment>
-                        <Typography variant={"h2"}>
-                            {month}
-                        </Typography>
-                        <Grid container spacing={4}>
-
-                            {
-                                byMonth[month].map(memento => (
-                                    displayMemento(memento)
-                                ))
-                            }
-                        </Grid>
-                    </Fragment>
-                } else if(!_.isEmpty(byMonth[month])) {
-                    return <Fragment>
-                        <Typography variant={"h2"}>
-                            {month}
-                        </Typography>
-                        {
-
-                        }
-                    </Fragment>
+    const showAllMemento = () => {
+        if (allMemento.length > 0) {
+            return <Grid container spacing={4}>
+                {
+                    allMemento.map(memento => (
+                        displayMemento(memento)
+                    ))
                 }
-            } else {
-                return <Grid
-                    item
-                    xs={12}
-                    align={"center"}
-                >
-                    <Typography variant={"h2"}>No Memento Found</Typography>
-                </Grid>
-            }
+            </Grid>
+        } else {
+            return <Grid
+                item
+                xs={12}
+                align={"center"}
+            >
+                <Typography variant={"h2"}>No Memento Found</Typography>
+            </Grid>
         }
     }
 
+    /*  const loadMemento = () => {
+          for (let month in byMonth) {
+              if (byMonth.hasOwnProperty(month)) {
+                  if (byMonth[month].length > 0) {
+                      return <Fragment>
+                          <Typography variant={"h2"}>
+                              {month}
+                          </Typography>
+                          <Grid container spacing={4}>
+
+                              {
+                                  byMonth[month].map(memento => (
+                                      displayMemento(memento)
+                                  ))
+                              }
+                          </Grid>
+                      </Fragment>
+                  } else if(!_.isEmpty(byMonth[month])) {
+                      return <Fragment>
+                          <Typography variant={"h2"}>
+                              {month}
+                          </Typography>
+                          {
+
+                          }
+                      </Fragment>
+                  }
+              } else {
+                  return <Grid
+                      item
+                      xs={12}
+                      align={"center"}
+                  >
+                      <Typography variant={"h2"}>No Memento Found</Typography>
+                  </Grid>
+              }
+          }
+      }
+  */
 
     return (
         <Container fixed className="allmemento-page" id={"container"}>
             <Grid container justify={"center"}>
                 <ComposeMemento/>
             </Grid>
-            <Grid container>
+            <Grid container style={{marginTop: 40}}>
                 {
-                    loadMemento()
+                    showAllMemento()
                 }
             </Grid>
 
