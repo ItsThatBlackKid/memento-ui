@@ -76,7 +76,6 @@ const AllMemento = () => {
         return "Error displaying memento"
     }
 
-    console.log(byMonth);
 
     const displayMemento = (memento) => {
         console.log(memento);
