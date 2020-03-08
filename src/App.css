@@ -1,0 +1,78 @@
+
+a {
+  text-decoration: none;
+}
+
+
+
+.App-link {
+  color: #61dafb;
+}
+
+.navbar-item {
+  color: white;
+}
+
+.App-title {
+  font-size: 1.5em;
+}
+
+.App-intro {
+  font-size: large;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+
+
+.card {
+  box-shadow: 0 1px 5px 1px rgba(0, 0, 0, 0.1)
+}
+
+.MuiCard-root{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 307px;
+}
+
+.MuiCardContent-root {
+  height: 100%;
+}
+
+.newmemento-page {
+  height: calc(100vh - 52px);
+  width: 60%;
+}
+
+.field:not(:last-child) {
+  margin-bottom: 2.75rem;
+}
+
+.content {
+  white-space: pre-wrap;
+}
+
+.card button {
+  border: none;
+  color: #3273dc;
+  cursor: pointer;
+  text-decoration: none;
+  font-size: 16px;
+}
+
+.card button:hover {
+  color: #363636;
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+
