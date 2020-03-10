@@ -1,0 +1,21 @@
+volumes:
+  web-root:
+    external: true
+
+services:
+  client:
+    image: client:memento
+    container_name: memento_client
+    restart: unless-stopped
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      -  AUTH=auth.sheku-kanneh.com
+      - AUTH_LOGIN=auth.sheku-kanneh.com/login
+    volumes:
+    - web-root:/srv/memento/ui/build
+    networks:
+      default:
+        external:
+          name: memento
