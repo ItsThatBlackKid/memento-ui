@@ -18,8 +18,8 @@ services:
       context: .
       dockerfile: Dockerfile
     environment:
-      -  AUTH=auth.sheku-kanneh.com
-      - AUTH_LOGIN=auth.sheku-kanneh.com/login
+      -  REACT_APP_AUTH=auth.sheku-kanneh.com
+      - REACT_APP_AUTH_LOGIN=auth.sheku-kanneh.com/login
     volumes:
       - web-root:/srv/memento/ui/build
     networks:
