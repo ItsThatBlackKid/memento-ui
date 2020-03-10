@@ -82,6 +82,7 @@ const App = () => {
         });
 
         let hasUser = false;
+        console.log(process.env.REACT_APP_AUTH);
 
         const whichUser = () => {
 
@@ -92,8 +93,6 @@ const App = () => {
             hasUser = !isEmpty(user);
 
             const redirectUri = `/?redirect=${encodeURIComponent(window.location)}`;
-            console.log(process.env.REACT_APP_AUTH);
-
 
             if (hasUser) {
                 return <IconButton>

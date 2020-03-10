@@ -6,8 +6,6 @@ WORKDIR /srv/memento/ui
 COPY package*.json ./
 USER root
 
-
-
 RUN npm i
 
 COPY . .
