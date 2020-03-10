@@ -4,6 +4,8 @@ variables:
 before_script:
   - docker version
   - docker-compose version
+  - docker container stop webserver
+  - docker volume rm memento_web-root
 
 
 build:
@@ -15,6 +17,7 @@ build:
 deploy:
   script:
     - docker-compose up -d
+    - docker container start webserver
   stage: deploy
   tags:
     - memento
