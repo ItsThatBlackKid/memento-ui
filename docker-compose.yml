@@ -2,6 +2,7 @@ version: '3.6'
 volumes:
   web-root:
     external: true
+    name: memento_web-root
 
 networks:
   memento:
