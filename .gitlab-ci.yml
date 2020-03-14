@@ -15,7 +15,6 @@ build:
 deploy:
   script:
     - docker-compose up --build -d
-    - docker restart nginx-proxy
   stage: deploy
   tags:
     - memento
