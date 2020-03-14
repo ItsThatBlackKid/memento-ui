@@ -8,8 +8,6 @@ USER root
 
 RUN npm i
 
-COPY ./nginx-proxy/memento.sheku-kanneh.com_location /etc/nginx/vhost.d
-
 COPY . .
 
 

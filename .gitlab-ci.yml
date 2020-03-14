@@ -4,6 +4,7 @@ variables:
 before_script:
   - docker version
   - docker-compose version
+  - docker-compose down --rmi all
 
 
 build:
