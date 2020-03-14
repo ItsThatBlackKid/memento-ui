@@ -1,7 +1,7 @@
 version: '3.6'
 volumes:
-  web-root:
-    name: memento_web-root
+  webroot:
+    name: webroot
 
 networks:
   memento:
@@ -21,3 +21,10 @@ services:
       - web-root:/srv/memento/ui/build
     networks:
       - memento
+
+  webserver:
+    image: nginx-proxy:mainline-alpine
+    container_name: memento_client_webserver
+    restart: unless-stopped
+    ports:
+      - '8080:8080'

@@ -4,8 +4,7 @@ variables:
 before_script:
   - docker version
   - docker-compose version
-  - docker container stop webserver
-  - docker container stop memento_client
+  - docker-compose down -v -f
   - docker volume rm memento_web-root
 
 
