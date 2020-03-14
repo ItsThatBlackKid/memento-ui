@@ -5,6 +5,7 @@ before_script:
   - docker version
   - docker-compose version
   - dock container stop nginx-proxy
+  - docker container rm nginx-proxy
 
 after_script:
   - cd ~/nginx/
