@@ -18,7 +18,7 @@ services:
       context: .
       dockerfile: Dockerfile
     volumes:
-      - web-root:/srv/memento/ui/build
+      - webroot:/srv/memento/ui/build
     networks:
       - memento
 
