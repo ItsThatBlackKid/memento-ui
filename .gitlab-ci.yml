@@ -4,12 +4,6 @@ variables:
 before_script:
   - docker version
   - docker-compose version
-  - dock container stop nginx-proxy
-  - docker container rm nginx-proxy
-
-after_script:
-  - cd ~/nginx/
-  - docker-compose up -d
 
 
 build:
@@ -21,7 +15,7 @@ build:
 deploy:
   script:
     - docker-compose up -d
-    - docker container start webserver
+    - docker restart nginx-proxy
   stage: deploy
   tags:
     - memento
