@@ -1,8 +1,6 @@
 version: '3.6'
 volumes:
   webroot:
-    driver_opts:
-      type: "tmpfs"
     name: webroot
 
 networks:
