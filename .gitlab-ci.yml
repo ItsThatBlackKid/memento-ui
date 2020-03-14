@@ -4,8 +4,6 @@ variables:
 before_script:
   - docker version
   - docker-compose version
-  - docker-compose down -v -f
-  - docker volume rm memento_web-root
 
 
 build:
