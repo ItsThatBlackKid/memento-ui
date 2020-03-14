@@ -1,4 +1,4 @@
 location / {
     root /srv/memento/ui;
-    
+    index index.html;
 }
