@@ -4,6 +4,11 @@ variables:
 before_script:
   - docker version
   - docker-compose version
+  - dock container stop nginx-proxy
+
+after_script:
+  - cd ~/nginx/
+  - docker-compose up -d
 
 
 build:
