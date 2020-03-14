@@ -14,7 +14,7 @@ build:
 
 deploy:
   script:
-    - docker-compose up -d
+    - docker-compose up --build -d
     - docker restart nginx-proxy
   stage: deploy
   tags:
