@@ -4,7 +4,8 @@ variables:
 before_script:
   - docker version
   - docker-compose version
-  - docker-compose down --rmi all
+  - docker-compose down
+  - docker run --rm -v webroot:/srv/memento/ui/build busybox rm -rf '/srv/*'
 
 
 build:
