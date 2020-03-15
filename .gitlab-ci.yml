@@ -8,7 +8,9 @@ before_script:
 
 
 build:
-  script: docker-compose build --no-cache
+  script:
+    - ls
+    - docker-compose build --no-cache
   stage: build
   tags:
     - memento
