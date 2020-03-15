@@ -105,7 +105,7 @@ const App = () => {
                                onClick={() => {
                                    window
                                        .location
-                                       .assign((process.env.REACT_APP_AUTH_LOGIN && process.env.REACT_APP_AUTH_LOGIN + redirectUri)
+                                       .assign((process.env.REACT_APP_AUTH_LOGIN &&  `http://${process.env.REACT_APP_AUTH_LOGIN} + ${redirectUri}`)
                                            || `http://test-sheku.com:3000/login${redirectUri}`
                                        )
                                }}
