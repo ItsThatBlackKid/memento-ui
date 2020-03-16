@@ -78,6 +78,7 @@ const App = () => {
                 dispatch(userLogin(data.getUser))
             },
             onError: (error) => {
+                console.log(error);
             }
         });
 

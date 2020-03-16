@@ -35,7 +35,7 @@ const MEMENTO_QUERY = gql`
             date
         }
     }
-`
+`;
 
 
 const AllMemento = () => {
