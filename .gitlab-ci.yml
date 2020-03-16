@@ -9,7 +9,6 @@ before_script:
 
 build:
   script:
-    - docker exec nginx-proxy rm -rf /srv/memento/ui/build
     - docker-compose down --rmi all
     - docker-compose build --no-cache
   stage: build
