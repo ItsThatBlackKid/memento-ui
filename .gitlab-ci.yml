@@ -4,12 +4,13 @@ variables:
 before_script:
   - docker version
   - docker-compose version
-  - docker-compose down --rmi all
+
 
 
 build:
   script:
-    - pwd
+    - docker exec nginx-proxy rm -rf /srv/memento/ui/build
+    - docker-compose down --rmi all
     - docker-compose build --no-cache
   stage: build
   tags:

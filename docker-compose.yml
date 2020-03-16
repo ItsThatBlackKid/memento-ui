@@ -12,7 +12,6 @@ services:
   client:
     image: client:memento
     container_name: memento_client
-    restart: unless-stopped
     build:
       context: .
       dockerfile: Dockerfile
